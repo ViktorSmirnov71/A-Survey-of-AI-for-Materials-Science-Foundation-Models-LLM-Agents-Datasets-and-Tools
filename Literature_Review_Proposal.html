@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Literature Review &amp; Research Proposal: AI Agents for Materials Discovery</title>
+<style>
+  *{box-sizing:border-box}
+  :root{ --serif:"Times New Roman","Liberation Serif",Times,Georgia,serif; }
+  html{scroll-behavior:smooth}
+  body{ margin:0; background:#fff; color:#000; font-family:var(--serif); font-size:11pt; line-height:1.4; }
+  /* layout: single-column plain report */
+  nav.toc{display:none}
+  .wrap{max-width:17cm; margin:0 auto; padding:28px 20px 64px}
+  main.paper{background:#fff; padding:0}
+  /* masthead */
+  .masthead{border-bottom:1.5px solid #000; padding-bottom:12px; margin-bottom:22px; text-align:center}
+  .kicker{font-size:10.5pt; letter-spacing:.02em; color:#000; font-weight:normal}
+  h1.title{font-family:var(--serif); font-size:19pt; line-height:1.2; margin:8px 0 4px; color:#000; font-weight:bold}
+  .subtitle{font-size:12.5pt; color:#000; font-weight:normal; font-style:italic; margin-bottom:14px}
+  .meta-grid{display:flex; flex-wrap:wrap; justify-content:center; gap:3px 22px; font-size:10.5pt; color:#000}
+  .meta-grid b{font-weight:bold}
+  .budget{margin-top:12px; font-size:9.5pt; color:#000; border-top:1px solid #000; border-bottom:1px solid #000; padding:7px 0; text-align:left}
+  /* headings */
+  main.paper{counter-reset:h2}
+  h2.sec{counter-reset:h3; counter-increment:h2; font-family:var(--serif); font-size:13.5pt; font-weight:bold; color:#000; margin:20px 0 6px}
+  h2.sec::before{content:counter(h2) ". "; font-variant-numeric:tabular-nums}
+  h2.sec.nonum{counter-increment:none}
+  h2.sec.nonum::before{content:none}
+  h3.sub{counter-increment:h3; font-family:var(--serif); font-size:11.5pt; font-weight:bold; font-style:italic; color:#000; margin:14px 0 4px}
+  h3.sub::before{content:counter(h2) "." counter(h3) " "; font-style:normal; font-weight:bold}
+  /* paragraphs */
+  p{margin:0; text-align:justify; hyphens:auto; text-indent:1.5em}
+  h2.sec + p, h3.sub + p, .lead, p.tight, .callout p, .obj-list li, ol.refs li{text-indent:0}
+  .callout p + p{text-indent:1.5em}
+  .lead{font-size:11pt; color:#000}
+  p.tight{margin:0}
+  em, em.term, i{font-style:italic; color:#000}
+  strong, b{color:#000; font-weight:bold}
+  sup.c{font-size:8.5pt; line-height:0}
+  sup.c a{color:#000; text-decoration:none}
+  /* callouts: plain ruled box */
+  .callout{border:1px solid #000; background:#fff; padding:8px 12px; margin:12px 0}
+  .callout .lab{font-size:10pt; letter-spacing:.03em; text-transform:uppercase; color:#000; font-weight:bold; margin-bottom:3px}
+  .callout.gap{border:1px solid #000}
+  .callout.gap .lab{color:#000}
+  /* figures */
+  figure{margin:16px 0; text-align:center}
+  figure svg{max-width:100%; height:auto; background:#fff}
+  figcaption{font-size:9.5pt; color:#000; margin-top:6px; text-align:justify; line-height:1.35}
+  figcaption b{font-weight:bold}
+  /* tables: booktabs */
+  table.data{width:100%; border-collapse:collapse; font-family:var(--serif); font-size:9.8pt; margin:12px 0}
+  table.data caption{font-size:9.8pt; color:#000; text-align:justify; margin-bottom:6px; caption-side:top}
+  table.data caption b{font-weight:bold}
+  table.data thead th{border-top:1.5px solid #000; border-bottom:1px solid #000; text-align:left; padding:4px 8px; font-weight:bold; vertical-align:bottom; color:#000}
+  table.data td{padding:3px 8px; vertical-align:top; color:#000; border:none}
+  table.data tbody tr:last-child td{border-bottom:1.5px solid #000}
+  table.data td b{font-weight:bold}
+  .tag{font-size:9pt; font-style:italic; color:#000}
+  /* risk table */
+  table.risk td:first-child{font-weight:normal; color:#000}
+  .sev{font-size:9.5pt; font-weight:bold; color:#000}
+  /* gantt: monochrome */
+  .gantt{font-family:var(--serif); font-size:9pt; margin:12px 0; border:1px solid #000}
+  .gantt .row{display:grid; grid-template-columns:212px repeat(9,1fr); align-items:center; border-bottom:1px solid #aaa}
+  .gantt .row:last-child{border-bottom:none}
+  .gantt .row.head{background:#fff; color:#000; font-weight:bold; border-bottom:1.5px solid #000}
+  .gantt .lab{padding:5px 8px; color:#000; border-right:1px solid #aaa; white-space:nowrap; hyphens:none}
+  .gantt .mo{text-align:center; padding:5px 0; font-size:9pt; color:#000}
+  .gantt .cell{height:28px; position:relative; border-right:1px solid #ddd}
+  .gantt .bar{position:absolute; top:6px; bottom:6px; left:2px; right:2px; background:#4d4d4d}
+  .gantt .bar.alt{background:repeating-linear-gradient(45deg,#000,#000 1.5px,#fff 1.5px,#fff 5px); border:1px solid #000}
+  .gantt .bar.soft{background:repeating-linear-gradient(45deg,#9a9a9a,#9a9a9a 1.5px,#fff 1.5px,#fff 5px); border:1px solid #9a9a9a}
+  /* references */
+  ol.refs{font-family:var(--serif); font-size:9.8pt; line-height:1.4; color:#000; padding-left:0; counter-reset:r; list-style:none}
+  ol.refs li{position:relative; padding-left:26px; margin:4px 0; text-align:justify}
+  ol.refs li::before{counter-increment:r; content:"["counter(r)"]"; position:absolute; left:0; color:#000; font-weight:normal}
+  ol.refs li:target{background:#ededed}
+  ol.refs i{font-style:italic; color:#000}
+  /* objectives & misc */
+  hr.soft{border:none; border-top:1px solid #000; margin:20px 0}
+  .obj-list{margin:6px 0; padding-left:0; list-style:none; counter-reset:obj}
+  .obj-list li{position:relative; padding:4px 0 4px 32px; text-align:justify}
+  .obj-list li::before{counter-increment:obj; content:"O"counter(obj) "."; position:absolute; left:0; top:4px; font-weight:bold; color:#000}
+  .footnote{font-size:9.5pt; color:#000; border-top:1px solid #000; margin-top:26px; padding-top:10px; text-align:justify}
+  /* print */
+  @media print{
+    body{font-size:11pt; line-height:1.22}
+    .wrap{max-width:none; margin:0; padding:0}
+    main.paper{padding:0}
+    .masthead{margin-bottom:14px; padding-bottom:9px}
+    h2.sec{margin:13px 0 4px; break-after:avoid; page-break-after:avoid}
+    h3.sub{margin:9px 0 3px; break-after:avoid; page-break-after:avoid}
+    p, .lead{margin:0}
+    .callout{margin:9px 0; padding:6px 11px}
+    figure{margin:11px 0} figure svg{max-width:76%}
+    table.data{margin:9px 0}
+    .gantt{margin:9px 0}
+    figure,table.data,.gantt,.callout,.obj-list li{break-inside:avoid; page-break-inside:avoid}
+    .pagebreak{break-before:auto; page-break-before:auto}
+    a{color:#000; text-decoration:none}
+    @page{size:A4; margin:2.5cm}
+  }
+  @media (max-width:680px){ .wrap{padding:16px 14px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<main class="paper">
+
+  <header class="masthead">
+    <div class="kicker">MSci Research Project 2026–2027 · Literature Review &amp; Research Proposal</div>
+    <h1 class="title">AI Agents for Materials Discovery</h1>
+    <div class="subtitle">Retrieval-augmented, property-aware and generative machine learning for inorganic crystal design</div>
+    <div class="meta-grid">
+      <span><b>Author:</b> [Your Name] (CID: [        ])</span>
+      <span><b>Supervisor:</b> [Supervisor Name]</span>
+      <span><b>Department of Chemistry, Imperial College London</b></span>
+      <span><b>Project 5</b></span>
+    </div>
+    <div class="budget"><b>Format note.</b> Drafted to the MSci brief: ≈8 pages of literature review (§1–§7) and ≈2 pages of research proposal (§8–§12), ≤10 pages total. Marking criteria addressed: coverage; insight &amp; context; project background/aims/objectives; programme plan; risk, fall-backs &amp; flexibility.</div>
+  </header>
+
+  <section id="abstract">
+    <h2 class="sec nonum">Abstract</h2>
+    <p class="lead">Large language models (LLMs) have made scientific knowledge conversationally accessible, and retrieval-augmented generation (RAG) grounds their answers in trusted sources. Yet LLMs remain unreliable on the <em class="term">continuous, numerical</em> reasoning that materials science demands, and pure RAG can <em class="term">retrieve and summarise</em> facts but cannot <em class="term">compute</em> a property or <em class="term">propose</em> a new compound. In parallel, two specialised model families have matured: graph neural networks (GNNs) that predict material properties at a fraction of the cost of density functional theory (DFT), and diffusion-based generative models that produce stable, property-conditioned crystals. This review surveys foundation models, RAG/agent frameworks, property-prediction networks and generative models for inorganic materials, and argues that these strands remain largely <em class="term">siloed</em>. The proposed project closes that gap by extending a materials RAG framework into a tool-using <em class="term">LLM agent</em> that delegates numerical property prediction to dedicated ML models and crystal generation to a diffusion model, turning a literature-retrieval assistant into an end-to-end, query-driven discovery engine.</p>
+  </section>
+
+  <!-- ===================== PART I ===================== -->
+
+  <section id="s1">
+    <h2 class="sec">Introduction and motivation</h2>
+    <p>Materials science is entering a phase of data-driven discovery. For decades, computational materials research has rested on first-principles methods such as density functional theory (DFT), molecular dynamics and finite-element modelling to predict properties and rationalise mechanisms.<sup class="c"><a href="#ref-1">1</a></sup> These methods are physically principled but computationally expensive and, in practice, confined to small, well-characterised systems; a single DFT relaxation of a modest unit cell can consume hours of CPU time, making exhaustive exploration of chemical space infeasible. Machine learning (ML) trained on curated computational and experimental data has begun to supplement these simulations, enabling property prediction and generative design at a tiny fraction of the cost.<sup class="c"><a href="#ref-1">1</a>,<a href="#ref-19">19</a></sup> Materials data is, however, uniquely demanding: it is intrinsically multimodal (structures, text, spectra, images), spans length scales from the electronic to the macroscopic, must respect physical laws such as energy conservation and symmetry, and is comparatively scarce and imbalanced relative to the billion-token corpora that train language models.<sup class="c"><a href="#ref-1">1</a></sup> Historically, too, such models have been narrow: each property, material class or data modality required a bespoke architecture and training pipeline, limiting transfer and scalability.</p>
+
+    <p>The arrival of <strong>foundation models</strong> (FMs), large models pretrained on broad data that transfer across many downstream tasks, has reframed the field.<sup class="c"><a href="#ref-35">35</a></sup> Following the impact of the Transformer<sup class="c"><a href="#ref-4">4</a></sup> and its descendants BERT<sup class="c"><a href="#ref-5">5</a></sup> and GPT<sup class="c"><a href="#ref-6">6</a></sup> in natural-language processing, the materials community now asks whether similarly general models can unify reasoning over atomic structures, chemical formulae, spectra and the text of the literature.<sup class="c"><a href="#ref-1">1</a></sup> Two capabilities have proved especially consequential. First, <strong>retrieval-augmented generation</strong> (RAG) couples an LLM to an external knowledge store so that responses are grounded in retrieved evidence rather than parametric memory alone, mitigating hallucination.<sup class="c"><a href="#ref-7">7</a></sup> Second, <strong>LLM agents</strong> wrap a language model in a reasoning loop that can call external tools, query databases and act on the results, allowing the model to outsource tasks it cannot perform reliably on its own.<sup class="c"><a href="#ref-30">30</a></sup></p>
+
+    <p>This last point is the crux of the project. LLMs are powerful interfaces to <em class="term">qualitative</em> knowledge but are demonstrably weak at the <em class="term">quantitative</em>, continuous reasoning at the heart of materials science: predicting a band gap, a formation energy or an elastic modulus to useful accuracy.<sup class="c"><a href="#ref-31">31</a></sup> A RAG system can find that a compound's band gap was reported as 1.6 eV; it cannot, by itself, predict the band gap of a compound that has never been measured, nor can it generate a novel crystal that should exhibit a target band gap. Those are precisely the tasks at which specialised ML such as GNN property predictors<sup class="c"><a href="#ref-19">19</a>,<a href="#ref-20">20</a></sup> and diffusion-based crystal generators<sup class="c"><a href="#ref-12">12</a>,<a href="#ref-13">13</a></sup> now excels. This review therefore traces a deliberate arc: from the general landscape of AI for materials, through RAG and agents, to property prediction and generative modelling, ending at the integration gap that the project will address.</p>
+
+    <p>Scope is defined by the project. The review concentrates on <strong>inorganic crystalline materials</strong> and on the four capabilities the project must combine: knowledge retrieval, agentic orchestration, property prediction, and property-conditioned generation. It does not attempt the comprehensive coverage of any one of these mature subfields; rather, following the assignment's guidance, it foregrounds the key ideas, representative methods and current thinking needed to situate and justify the proposed work. A recent survey of AI for materials science<sup class="c"><a href="#ref-1">1</a></sup> provides the organising backbone and is supplemented throughout with the primary literature.</p>
+  </section>
+
+  <section id="s2">
+    <h2 class="sec">Foundation models and the AI-for-materials task landscape</h2>
+    <p>It is useful to begin with a map of the problems that AI is being applied to in materials science, because the project sits at the intersection of several of them. Van <em>et al.</em><sup class="c"><a href="#ref-1">1</a></sup> organise the field into six recurring task families (Table 1); the project draws principally on T1, T3 and T4, orchestrated by an agent.</p>
+
+    <table class="data">
+      <caption><b>Table 1.</b> The six task families that recur across AI-for-materials research, after the taxonomy of Van <em>et al.</em><sup class="c"><a href="#ref-1">1</a></sup> Tasks central to this project are highlighted.</caption>
+      <thead><tr><th style="width:62px">Task</th><th style="width:32%">Family</th><th>What it involves</th><th style="width:84px">Project</th></tr></thead>
+      <tbody>
+        <tr><td><b>T1</b></td><td>Data extraction, interpretation &amp; Q&amp;A</td><td>Mining facts and relations from papers/patents; question answering over the literature, the natural home of RAG.</td><td><span class="tag">core</span></td></tr>
+        <tr><td><b>T2</b></td><td>Atomistic simulation</td><td>Machine-learned interatomic potentials replacing/accelerating DFT and MD.</td><td>context</td></tr>
+        <tr><td><b>T3</b></td><td>Property prediction</td><td>Mapping composition/structure to properties (band gap, formation energy, moduli).</td><td><span class="tag">core</span></td></tr>
+        <tr><td><b>T4</b></td><td>Structure, design &amp; discovery</td><td>Generating novel, stable, property-targeted structures (inverse design).</td><td><span class="tag">core</span></td></tr>
+        <tr><td><b>T5</b></td><td>Process planning &amp; optimisation</td><td>Synthesis route planning, experimental optimisation.</td><td>extension</td></tr>
+        <tr><td><b>T6</b></td><td>Multiscale modelling</td><td>Bridging electronic, atomistic and continuum scales.</td><td>out of scope</td></tr>
+      </tbody>
+    </table>
+
+    <p>Cutting across these tasks, FMs are conventionally grouped into three categories.<sup class="c"><a href="#ref-1">1</a></sup> <strong>Unimodal</strong> models operate within a single modality: text (e.g. the BERT-derived MatSciBERT<sup class="c"><a href="#ref-23">23</a></sup>) or structure (GNNs over crystal graphs). <strong>Multimodal</strong> models attempt to fuse two or more modalities, for example aligning text with molecular structure, but remain comparatively immature: most deployed models still reason in a single modality.<sup class="c"><a href="#ref-1">1</a></sup> <strong>LLM agents</strong> extend a base model with external knowledge and tools, and are the category the project lives in. Architecturally, the three Transformer variants recur throughout: <em class="term">encoder-only</em> models (BERT-style) build representations well-suited to property prediction; <em class="term">decoder-only</em> models (GPT-style) generate sequences and underpin string-based crystal generation; and <em class="term">encoder–decoder</em> models support translation-like tasks.<sup class="c"><a href="#ref-4">4</a>,<a href="#ref-5">5</a></sup></p>
+
+    <p>The strategic reading of this landscape is that <em class="term">no single model does everything well</em>. Text models read the literature but cannot relax a structure; potentials and GNNs compute properties but cannot converse; generators propose structures but neither explain their reasoning nor guarantee stability. This division of labour is exactly why an <em class="term">agentic</em> architecture, a language model that routes sub-problems to specialised tools, is the natural unifying abstraction, and why it forms the spine of the proposed system.</p>
+  </section>
+
+  <section id="s3">
+    <h2 class="sec">Retrieval-augmented generation and LLM agents for materials</h2>
+
+    <h3 class="sub">Why retrieval, and why grounding matters</h3>
+    <p>LLMs encode a great deal of materials knowledge in their parameters, but that knowledge is static, opaque and prone to <em class="term">hallucination</em> when the model is pushed outside its training distribution.<sup class="c"><a href="#ref-1">1</a></sup> RAG addresses this by retrieving relevant documents at query time and conditioning generation on them, so that claims are traceable to sources.<sup class="c"><a href="#ref-7">7</a></sup> In a domain where an incorrect synthesis condition can be unsafe and an invented property value is worse than no answer, this grounding is not a convenience but a requirement. The benchmark study of Miret and Krishnan<sup class="c"><a href="#ref-31">31</a></sup> is sobering here: general-purpose LLMs are <em class="term">not yet</em> reliable for real-world materials discovery, particularly on quantitative tasks. Dedicated benchmarks sharpen the point: when asked to regress material properties directly, LLMs trail task-specific models by a wide margin,<sup class="c"><a href="#ref-43">43</a>,<a href="#ref-38">38</a></sup> evidencing the project's central premise that numerical work should be <em class="term">delegated</em> to specialised ML rather than learned in context, while retrieval and tool-use, not ever-larger parametric models, are the productive path.</p>
+
+    <h3 class="sub">RAG systems for materials knowledge</h3>
+    <p>The clearest exemplar is <strong>HoneyComb</strong>,<sup class="c"><a href="#ref-24">24</a></sup> an LLM agent built around three components: <em class="term">MatSciKB</em>, a curated knowledge base aggregating arXiv articles, Wikipedia, datasets and textbooks; <em class="term">ToolHub</em>, a suite of retrieval tools for up-to-date information; and a <em class="term">Retriever</em> that pulls relevant knowledge using classical and neural retrieval (BM25 and Contriever). HoneyComb is model-agnostic and measurably improves domain reasoning over a bare LLM, a template for the retrieval layer of the proposed system. Its predecessor HoneyBee<sup class="c"><a href="#ref-25">25</a></sup> showed that instruction-tuning an open LLM on materials text (with one model generating instructions and another verifying them) already lifts domain competence, establishing the data-curation pattern the project can reuse.</p>
+
+    <h3 class="sub">From retrieval to action: tool-using agents</h3>
+    <p>The decisive step beyond retrieval is <em class="term">tool use</em>. <strong>ChemCrow</strong><sup class="c"><a href="#ref-30">30</a></sup> equips an LLM with eighteen expert chemistry tools and a chain-of-thought loop (plan, select a tool, act, analyse; the reason-then-act pattern formalised as ReAct<sup class="c"><a href="#ref-39">39</a></sup>), implemented in the LangChain framework, and thereby performs synthesis planning and other tasks no bare LLM can. Most directly relevant is <strong>LLMatDesign</strong>,<sup class="c"><a href="#ref-26">26</a></sup> which is almost a blueprint for this project: it takes a target composition and property in natural language, proposes a modification (substitute, add or remove an element), calls dedicated ML tools (MatDeepLearn, TorchMD-Net<sup class="c"><a href="#ref-32">32</a></sup>) to <em class="term">predict the resulting property</em>, evaluates the outcome against the target, and iterates in a self-reflective loop, translating instructions into Materials Project API calls along the way. <strong>ChatMOF</strong><sup class="c"><a href="#ref-27">27</a></sup> applies the same agent–toolkit–evaluator pattern to metal–organic frameworks, spanning retrieval, prediction <em class="term">and</em> generation. Human-in-the-loop systems such as <strong>MatAgent</strong><sup class="c"><a href="#ref-28">28</a></sup> and <strong>MatPilot</strong><sup class="c"><a href="#ref-29">29</a></sup> add expert oversight and, in MatPilot's case, a path toward robotic execution.</p>
+
+    <p>Two observations frame the project. First, these agents already demonstrate the value of delegating numerical work to specialised models, but each hard-wires a particular toolset and task. Second, retrieval and generation are rarely unified in one system: HoneyComb retrieves but does not generate crystals; the diffusion generators of §5 generate but are not wrapped in a conversational, knowledge-grounded interface. The project's contribution is to combine grounded retrieval, numerical prediction and generative design behind a single agent.</p>
+
+    <figure id="figArch">
+      <svg viewBox="0 0 760 430" xmlns="http://www.w3.org/2000/svg" font-family="'Times New Roman',Times,serif">
+        <defs>
+          <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 z" fill="#000"/></marker>
+        </defs>
+        <rect x="20" y="20" width="180" height="56" rx="3" fill="#fff" stroke="#000" stroke-width="1.3"/>
+        <text x="110" y="44" fill="#000" font-size="12.5" font-weight="700" text-anchor="middle">User query (natural language)</text>
+        <text x="110" y="62" fill="#000" font-size="9.5" font-style="italic" text-anchor="middle">"a stable oxide with band gap = 2 eV"</text>
+        <rect x="270" y="14" width="220" height="70" rx="3" fill="#e6e6e6" stroke="#000" stroke-width="1.5"/>
+        <text x="380" y="40" fill="#000" font-size="13.5" font-weight="700" text-anchor="middle">LLM Agent (orchestrator)</text>
+        <text x="380" y="58" fill="#000" font-size="9.5" text-anchor="middle">reason - route - call tool - evaluate</text>
+        <text x="380" y="72" fill="#000" font-size="9.5" text-anchor="middle">(LangChain / LlamaIndex loop)</text>
+        <line x1="200" y1="48" x2="266" y2="48" stroke="#000" stroke-width="1.3" marker-end="url(#ar)"/>
+        <g>
+          <rect x="40" y="150" width="200" height="92" rx="3" fill="#fff" stroke="#000" stroke-width="1.1"/>
+          <text x="140" y="172" fill="#000" font-size="12" font-weight="700" text-anchor="middle">1. RAG retriever</text>
+          <text x="140" y="190" fill="#000" font-size="9.7" text-anchor="middle">Materials knowledge base</text>
+          <text x="140" y="204" fill="#000" font-size="9.7" text-anchor="middle">papers; MP / OQMD records</text>
+          <text x="140" y="218" fill="#000" font-size="9.2" text-anchor="middle">BM25 + dense embeddings</text>
+          <text x="140" y="233" fill="#000" font-size="9.2" text-anchor="middle">-&gt; grounded facts &amp; context</text>
+        </g>
+        <g>
+          <rect x="280" y="150" width="200" height="92" rx="3" fill="#fff" stroke="#000" stroke-width="1.1"/>
+          <text x="380" y="172" fill="#000" font-size="12" font-weight="700" text-anchor="middle">2. ML property predictor</text>
+          <text x="380" y="190" fill="#000" font-size="9.7" text-anchor="middle">GNN: CGCNN / MEGNet</text>
+          <text x="380" y="204" fill="#000" font-size="9.7" text-anchor="middle">structure -&gt; property</text>
+          <text x="380" y="218" fill="#000" font-size="9.2" text-anchor="middle">band gap; formation energy</text>
+          <text x="380" y="233" fill="#000" font-size="9.2" text-anchor="middle">-&gt; fast numerical estimate</text>
+        </g>
+        <g>
+          <rect x="520" y="150" width="200" height="92" rx="3" fill="#fff" stroke="#000" stroke-width="1.1"/>
+          <text x="620" y="172" fill="#000" font-size="12" font-weight="700" text-anchor="middle">3. Diffusion generator</text>
+          <text x="620" y="190" fill="#000" font-size="9.7" text-anchor="middle">CDVAE / MatterGen</text>
+          <text x="620" y="204" fill="#000" font-size="9.7" text-anchor="middle">property -&gt; structure</text>
+          <text x="620" y="218" fill="#000" font-size="9.2" text-anchor="middle">conditioned crystal sampling</text>
+          <text x="620" y="233" fill="#000" font-size="9.2" text-anchor="middle">-&gt; candidate CIF(s)</text>
+        </g>
+        <line x1="340" y1="86" x2="160" y2="146" stroke="#000" stroke-width="1.4" marker-end="url(#ar)"/>
+        <line x1="380" y1="86" x2="380" y2="146" stroke="#000" stroke-width="1.4" marker-end="url(#ar)"/>
+        <line x1="420" y1="86" x2="600" y2="146" stroke="#000" stroke-width="1.4" marker-end="url(#ar)"/>
+        <rect x="210" y="300" width="340" height="58" rx="3" fill="#f0f0f0" stroke="#000" stroke-width="1.2"/>
+        <text x="380" y="324" fill="#000" font-size="12" font-weight="700" text-anchor="middle">Verification &amp; grounding layer</text>
+        <text x="380" y="342" fill="#000" font-size="9.6" text-anchor="middle">cross-check vs known data; stability filter; (optional DFT)</text>
+        <line x1="140" y1="242" x2="300" y2="298" stroke="#000" stroke-width="1.3" marker-end="url(#ar)"/>
+        <line x1="380" y1="242" x2="380" y2="298" stroke="#000" stroke-width="1.3" marker-end="url(#ar)"/>
+        <line x1="620" y1="242" x2="460" y2="298" stroke="#000" stroke-width="1.3" marker-end="url(#ar)"/>
+        <rect x="250" y="386" width="260" height="34" rx="3" fill="#fff" stroke="#000" stroke-width="1.5"/>
+        <text x="380" y="408" fill="#000" font-size="11.5" font-weight="700" text-anchor="middle">Grounded answer + candidate crystal</text>
+        <line x1="380" y1="358" x2="380" y2="384" stroke="#000" stroke-width="1.4" marker-end="url(#ar)"/>
+        <path d="M250,403 C120,403 120,210 138,244" fill="none" stroke="#000" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+        <text x="86" y="320" fill="#000" font-size="9" text-anchor="middle" transform="rotate(-90 86 320)">iterate if target not met</text>
+      </svg>
+      <figcaption><b>Figure 1.</b> Proposed agentic architecture (original schematic). A single LLM agent interprets a natural-language query and routes sub-tasks to three specialised tools: ① a RAG retriever for grounded knowledge, ② an ML property predictor for fast numerical estimates, and ③ a diffusion model for property-conditioned crystal generation, then verifies candidates against known data before answering, iterating when the target property is unmet.</figcaption>
+    </figure>
+  </section>
+
+  <section id="s4">
+    <h2 class="sec">Machine learning for material property prediction</h2>
+    <p>Property prediction is the quantitative engine the agent will call, and the subfield where ML most clearly outperforms an LLM. The premise is simple: DFT is accurate but expensive, so learn the structure→property mapping directly from data and predict in milliseconds.<sup class="c"><a href="#ref-1">1</a></sup> Two model families dominate, distinguished mainly by how they represent a material.<sup class="c"><a href="#ref-19">19</a>,<a href="#ref-20">20</a></sup></p>
+
+    <h3 class="sub">Graph neural networks over structures</h3>
+    <p>Crystals and molecules are naturally graphs (atoms as nodes, bonds or proximity as edges), and <em class="term">geometric</em> GNNs exploit this directly. <strong>SchNet</strong><sup class="c"><a href="#ref-21">21</a></sup> introduced continuous-filter convolutions to model quantum interactions with rotational invariance. <strong>CGCNN</strong> (crystal graph CNN)<sup class="c"><a href="#ref-19">19</a></sup> represents a periodic crystal as a multi-edge graph, capturing local chemical environments and long-range periodicity, and is notable for being <em class="term">interpretable</em>: it attributes global properties to local environments. <strong>MEGNet</strong><sup class="c"><a href="#ref-20">20</a></sup> generalises this with atomic, bond and global-state attributes and, trained on Materials Project<sup class="c"><a href="#ref-2">2</a></sup> and QM9 data, predicts formation energies, band gaps and elastic moduli across broad chemical space. These models (fast, accurate and pretrained) are ideal "tools" for an agent, and CGCNN/MEGNet are realistic choices for the project's predictor. A closely related family, machine-learned interatomic potentials such as MACE,<sup class="c"><a href="#ref-11">11</a></sup> MatterSim<sup class="c"><a href="#ref-10">10</a></sup> and CHGNet,<sup class="c"><a href="#ref-41">41</a></sup> approximates DFT energies and forces directly and provides the fast energy-above-hull estimates needed to judge thermodynamic stability, a capability the project reuses in its verification stage (§9).</p>
+
+    <h3 class="sub">Transformer- and string-based predictors</h3>
+    <p>An alternative encodes a material as a string and applies a Transformer. <strong>ChemBERTa</strong><sup class="c"><a href="#ref-22">22</a></sup> adapts RoBERTa to molecular SMILES from PubChem for property prediction; related encoder-only models (CatBERTa, SolvBERT, Mol-BERT) target catalysis and solvation. Because SMILES and SELFIES are 2D and omit 3D conformation, crystal-aware variants such as Matformer and ComFormer inject lattice geometry and periodicity into the attention mechanism.<sup class="c"><a href="#ref-1">1</a></sup> The representation question (2D strings vs 3D graphs) is a recurring theme: 3D structural information yields richer features for spatially dependent properties, which is why GNNs remain the default for inorganic crystals.</p>
+
+    <p>Crucially for the project, property predictors are also what make <em class="term">generation</em> useful: a generator proposes a candidate, and a predictor (or DFT) scores whether it actually meets the target. Standardised benchmarks such as MoleculeNet<sup class="c"><a href="#ref-33">33</a></sup> and Matbench<sup class="c"><a href="#ref-37">37</a></sup> allow these predictors to be compared and selected on like-for-like tasks, which the project will use to choose and validate its predictor.</p>
+  </section>
+
+  <section id="s5">
+    <h2 class="sec">Generative and diffusion models for materials</h2>
+    <p>If property prediction answers "what is the property of this material?", generative modelling answers the inverse and far harder question: "what material has this property?" This <em class="term">inverse design</em> is the project's most ambitious component. Early generative work used VAEs and GANs; the field has since converged on <strong>diffusion models</strong>, which learn to reverse a gradual noising process to sample new structures<sup class="c"><a href="#ref-8">8</a></sup> and have proved especially well-suited to the geometric, periodic nature of crystals. In the crystal setting the denoising network is made <em class="term">equivariant</em> and operates jointly on the lattice, fractional coordinates and atom types, while property conditioning (e.g. classifier-free guidance) steers sampling toward a target value, the mechanism that makes "generate a crystal with property Y" tractable.<sup class="c"><a href="#ref-14">14</a>,<a href="#ref-12">12</a></sup></p>
+
+    <h3 class="sub">Graph- and diffusion-based crystal generation</h3>
+    <p>G-SchNet<sup class="c"><a href="#ref-18">18</a></sup> pioneered autoregressive 3D molecule generation with built-in rotational invariance. <strong>CDVAE</strong> (crystal diffusion VAE)<sup class="c"><a href="#ref-13">13</a></sup> was a landmark for inorganic solids, combining a periodic GNN encoder, a property predictor and a periodic GNN decoder with a diffusion process to generate <em class="term">stable</em> crystals, and demonstrating reconstruction, generation and, critically, <em class="term">property optimisation</em>. Its conditional extension <strong>Con-CDVAE</strong><sup class="c"><a href="#ref-16">16</a></sup> generates latent variables from a target property (e.g. formation energy or band gap) and decodes them to a structure, realising the exact "generate a crystal with this property" capability the project envisages. <strong>DiffCSP</strong><sup class="c"><a href="#ref-14">14</a></sup> performs joint equivariant diffusion over lattices, fractional coordinates and atom types, and <strong>DiffCSP++</strong><sup class="c"><a href="#ref-15">15</a></sup> adds space-group symmetry constraints, improving physical validity.</p>
+
+    <h3 class="sub">Scaling up: MatterGen, GNoME and language-model generators</h3>
+    <p>The current flagship is <strong>MatterGen</strong>,<sup class="c"><a href="#ref-12">12</a></sup> a diffusion model that generates stable, diverse inorganic crystals across the periodic table by refining atom types, coordinates and lattice together. Decisively for this project, it is <em class="term">fine-tuned with property labels to steer generation under specified constraints</em> and outperforms prior models in diversity, novelty and closeness to DFT-derived properties.<sup class="c"><a href="#ref-1">1</a></sup> A complementary, search-driven approach is <strong>GNoME</strong>,<sup class="c"><a href="#ref-9">9</a></sup> a GNN discovery engine with ensembling and uncertainty quantification that, through an active-learning loop of generation and DFT validation, identified over 2.2 million stable inorganic candidates and tens of thousands of new prototypes, an order-of-magnitude expansion of known stable materials. A third route treats crystals as text: <strong>CrystaLLM</strong><sup class="c"><a href="#ref-17">17</a></sup> trains a decoder-only Transformer on millions of CIF files and generates new structures by next-token prediction; indeed, even general-purpose LLMs, once fine-tuned, can emit valid, stable inorganic crystals directly as text,<sup class="c"><a href="#ref-42">42</a></sup> a representation directly compatible with an LLM-centric agent.</p>
+
+    <div class="callout">
+      <div class="lab">Recurring limitation</div>
+      <p class="tight">Generative models produce <em>syntactically valid</em> structures that are not guaranteed to be <em>synthesisable</em> or even physically plausible; MatterGen itself cannot guarantee experimental feasibility, and generated structures can be physically implausible despite passing validity checks.<sup class="c"><a href="#ref-12">12</a>,<a href="#ref-1">1</a></sup> This is exactly why the project pairs generation with a property-predictor/verification stage rather than trusting the generator's output directly; synthesizability itself can ultimately only be confirmed experimentally, as autonomous laboratories such as A-Lab<sup class="c"><a href="#ref-34">34</a></sup> now begin to do at scale.</p>
+    </div>
+  </section>
+
+  <section id="s6">
+    <h2 class="sec">Datasets, tools and infrastructure</h2>
+    <p>Every model above is only as good as its data, and the project will depend on the same ecosystem. The computational backbone is a set of DFT databases: the <strong>Materials Project</strong><sup class="c"><a href="#ref-2">2</a></sup> and the <strong>Open Quantum Materials Database (OQMD)</strong><sup class="c"><a href="#ref-3">3</a></sup>, alongside NOMAD, JARVIS, the Open Catalyst sets and QM9, supply hundreds of thousands of structures with computed properties for both training and retrieval.<sup class="c"><a href="#ref-1">1</a></sup> A pivotal caveat, emphasised by Van <em>et al.</em>,<sup class="c"><a href="#ref-1">1</a></sup> is <strong>data imbalance</strong>: coverage is heavily skewed toward stable, inorganic, atomically-resolved systems (especially oxides), while polymers, disordered and amorphous phases, soft materials and larger length scales are sparse. This bias shapes what current models can reliably do and bounds the project's claims: a system trained and grounded on Materials-Project-like data will be most trustworthy for stable inorganic crystals, which appropriately scopes the proposed work.</p>
+
+    <p>On infrastructure, mature open-source tools make the project tractable within a year. <em class="term">pymatgen</em><sup class="c"><a href="#ref-36">36</a></sup>, ASE and the Materials Project / OPTIMADE APIs handle structure manipulation and data access; <em class="term">matminer</em> and RDKit provide featurisation; PyTorch Geometric and DGL implement the GNNs; and frameworks such as LangChain and LlamaIndex provide the RAG and agent scaffolding referenced throughout §3.<sup class="c"><a href="#ref-1">1</a></sup> Reference implementations exist for the key models (CGCNN, MEGNet, CDVAE, MatterGen), so the project integrates and adapts proven components rather than rebuilding them, a deliberate de-risking choice reflected in §11.</p>
+  </section>
+
+  <section id="s7">
+    <h2 class="sec">Synthesis: the integration gap and the case for an agent</h2>
+    <p>Three conclusions emerge from the literature. <strong>First</strong>, LLMs are excellent linguistic interfaces but unreliable quantitative reasoners; grounding via RAG fixes <em class="term">factual</em> reliability but not <em class="term">numerical</em> capability.<sup class="c"><a href="#ref-31">31</a>,<a href="#ref-7">7</a></sup> <strong>Second</strong>, dedicated ML now performs the two quantitative tasks the project needs, property prediction (CGCNN, MEGNet)<sup class="c"><a href="#ref-19">19</a>,<a href="#ref-20">20</a></sup> and property-conditioned crystal generation (CDVAE, Con-CDVAE, MatterGen)<sup class="c"><a href="#ref-13">13</a>,<a href="#ref-16">16</a>,<a href="#ref-12">12</a></sup>, to a useful standard. <strong>Third</strong>, agent frameworks already show that an LLM can usefully delegate to such tools (LLMatDesign, ChemCrow, ChatMOF),<sup class="c"><a href="#ref-26">26</a>,<a href="#ref-30">30</a>,<a href="#ref-27">27</a></sup> but existing systems each fix a narrow toolset and, crucially, <em class="term">do not unify grounded retrieval, numerical prediction and generative design in one loop</em>.</p>
+
+    <div class="callout gap">
+      <div class="lab">The research gap</div>
+      <p class="tight">Materials RAG systems <em>retrieve and summarise</em> but cannot <em>predict</em> unmeasured properties or <em>generate</em> new structures; property predictors and diffusion generators can do exactly this but are not exposed through a grounded, conversational interface. <strong>No current system lets a researcher ask, in natural language, for a material with a target property and receive a grounded answer that combines retrieved evidence, a predicted property value, and a generated candidate crystal, all verified before it is returned.</strong> Closing this gap is the project.</p>
+    </div>
+
+    <figure id="figVenn">
+      <svg viewBox="0 0 660 392" xmlns="http://www.w3.org/2000/svg" font-family="'Times New Roman',Times,serif">
+        <circle cx="218" cy="152" r="142" fill="#000" fill-opacity="0.05" stroke="#000" stroke-width="1.2"/>
+        <circle cx="442" cy="152" r="142" fill="#000" fill-opacity="0.05" stroke="#000" stroke-width="1.2"/>
+        <circle cx="330" cy="238" r="142" fill="#000" fill-opacity="0.05" stroke="#000" stroke-width="1.2"/>
+        <text x="150" y="126" fill="#000" font-size="12" font-weight="700" text-anchor="middle">Knowledge</text>
+        <text x="150" y="144" fill="#000" font-size="12" font-weight="700" text-anchor="middle">retrieval (RAG)</text>
+        <text x="150" y="163" fill="#000" font-size="9.5" text-anchor="middle">HoneyComb &#183; LangChain</text>
+        <text x="510" y="126" fill="#000" font-size="12" font-weight="700" text-anchor="middle">Property</text>
+        <text x="510" y="144" fill="#000" font-size="12" font-weight="700" text-anchor="middle">prediction (ML)</text>
+        <text x="510" y="163" fill="#000" font-size="9.5" text-anchor="middle">CGCNN &#183; MEGNet</text>
+        <text x="330" y="300" fill="#000" font-size="12" font-weight="700" text-anchor="middle">Generation (diffusion)</text>
+        <text x="330" y="318" fill="#000" font-size="9.5" text-anchor="middle">CDVAE &#183; MatterGen</text>
+        <circle cx="330" cy="183" r="40" fill="#fff" stroke="#000" stroke-width="1.4"/>
+        <text x="330" y="180" fill="#000" font-size="10.5" font-weight="700" text-anchor="middle">THIS</text>
+        <text x="330" y="194" fill="#000" font-size="10.5" font-weight="700" text-anchor="middle">PROJECT</text>
+      </svg>
+      <figcaption><b>Figure 2.</b> Positioning of the project (original schematic). Each capability is mature in isolation and partially paired by existing agents, but the three-way intersection (grounded retrieval <em>and</em> numerical prediction <em>and</em> property-conditioned generation in one agentic loop) is largely unoccupied.</figcaption>
+    </figure>
+
+    <p>An agentic architecture is the natural way to close it because the agent need not <em class="term">be</em> good at chemistry; it needs to know <em class="term">which tool</em> to call and how to compose the results, exactly the competence LLMs do possess.<sup class="c"><a href="#ref-30">30</a></sup> The remainder of this document specifies how.</p>
+  </section>
+
+  <!-- ===================== PART II ===================== -->
+  <div class="pagebreak"></div>
+
+  <section id="s8">
+    <h2 class="sec">Research proposal: aims and objectives</h2>
+    <p><strong>Background in one paragraph.</strong> The project extends an existing materials-RAG framework into a tool-using LLM agent. Where current RAG systems retrieve and summarise materials knowledge, the agent will additionally (i) delegate <em class="term">property prediction</em> to a dedicated ML model so it can answer quantitative questions about unmeasured materials, and (ii) delegate <em class="term">query-based generation</em> to a diffusion model so it can propose novel crystals that should exhibit a requested property, each result grounded against retrieved data and verified before it is returned.</p>
+
+    <div class="callout">
+      <div class="lab">Aim</div>
+      <p class="tight">To design, build and evaluate an LLM-agent system that unifies retrieval-augmented materials knowledge, ML-based property prediction and diffusion-based crystal generation, enabling natural-language, property-targeted discovery of inorganic crystalline materials with grounded, verifiable outputs.</p>
+    </div>
+
+    <p><strong>Objectives.</strong></p>
+    <ol class="obj-list">
+      <li><b>Establish the RAG baseline.</b> Reproduce/adopt a materials-RAG pipeline (knowledge base from Materials Project + literature abstracts; BM25 + dense retrieval) and characterise its limits on quantitative queries.</li>
+      <li><b>Integrate a property predictor as a tool.</b> Wrap a pretrained GNN (CGCNN/MEGNet) behind the agent so it returns band-gap and formation-energy estimates on demand, benchmarked on Matbench.</li>
+      <li><b>Integrate a generative model as a tool.</b> Connect a property-conditioned generator (CDVAE/Con-CDVAE, with MatterGen as a stretch target) to produce candidate crystals for a target property.</li>
+      <li><b>Build the agent loop.</b> Implement routing, tool-calling and a verification stage (predict-then-check, stability filtering) in LangChain/LlamaIndex, with an iterate-if-unmet feedback loop (Fig. 1).</li>
+      <li><b>Evaluate end-to-end.</b> Define metrics: retrieval faithfulness, prediction error vs DFT (on Matbench<sup class="c"><a href="#ref-37">37</a></sup> and LLM4Mat-Bench<sup class="c"><a href="#ref-43">43</a></sup>), generation validity/novelty/property-match, and hallucination rate, under controlled ablations (LLM-only, retrieval-only, full system) so gains are attributable to each component.</li>
+    </ol>
+  </section>
+
+  <section id="s9">
+    <h2 class="sec">Methodology and system design</h2>
+    <p>The system (Fig. 1) is an LLM <em class="term">orchestrator</em> exposing three tools through a standard agent framework. <strong>Retrieval (Tool ①):</strong> a knowledge base of Materials Project records and literature abstracts is indexed with a hybrid of sparse (BM25) and dense passage retrieval,<sup class="c"><a href="#ref-40">40</a></sup> following the HoneyComb pattern;<sup class="c"><a href="#ref-24">24</a></sup> the agent cites retrieved passages so every factual claim is traceable. <strong>Prediction (Tool ②):</strong> a pretrained CGCNN/MEGNet<sup class="c"><a href="#ref-19">19</a>,<a href="#ref-20">20</a></sup> maps a structure (or a retrieved/generated candidate) to a property estimate in milliseconds, supplying the numerical capability the LLM lacks. <strong>Generation (Tool ③):</strong> a property-conditioned diffusion model<sup class="c"><a href="#ref-13">13</a>,<a href="#ref-16">16</a></sup> samples candidate crystals for a requested property; outputs are CIF/structure objects handled with pymatgen.<sup class="c"><a href="#ref-36">36</a></sup></p>
+
+    <p>The <strong>agent loop</strong> ties these together: the LLM parses the query, decides whether it needs a fact (→①), a number (→②) or a new structure (→③, then ② to score it), composes the results, and passes candidates through a <strong>verification layer</strong> that cross-checks predicted properties against retrieved/known values and applies a stability filter (using a machine-learned potential such as CHGNet<sup class="c"><a href="#ref-41">41</a></sup> to estimate the energy above the convex hull), optionally invoking a single DFT relaxation for the top candidate. If a generated material misses the target property, the agent iterates, re-prompting the generator or proposing a compositional modification in the manner of LLMatDesign.<sup class="c"><a href="#ref-26">26</a></sup> Development is incremental and tool-by-tool so that each component is independently testable, and reuses reference implementations rather than training large models from scratch, feasible within the GPU budget of a single MSci project, in contrast to the tens of thousands of GPU-hours that flagship models such as GNoME and MatterSim required.<sup class="c"><a href="#ref-1">1</a></sup></p>
+  </section>
+
+  <section id="s10">
+    <h2 class="sec">Programme of work</h2>
+    <p>The plan spans the MSci project year (Oct 2026 – Jun 2027), front-loading literature consolidation and the lowest-risk components and deferring the most ambitious generation work, with explicit slack before the dissertation.</p>
+    <div class="gantt">
+      <div class="row head">
+        <div class="lab">Work package</div>
+        <div class="mo">Oct</div><div class="mo">Nov</div><div class="mo">Dec</div><div class="mo">Jan</div><div class="mo">Feb</div><div class="mo">Mar</div><div class="mo">Apr</div><div class="mo">May</div><div class="mo">Jun</div>
+      </div>
+      <div class="row"><div class="lab">WP1 · Literature &amp; tooling set-up</div>
+        <div class="cell"><div class="bar"></div></div><div class="cell"><div class="bar"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div>
+      <div class="row"><div class="lab">WP2 · RAG baseline (O1)</div>
+        <div class="cell"></div><div class="cell"><div class="bar"></div></div><div class="cell"><div class="bar"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div>
+      <div class="row"><div class="lab">WP3 · Property-predictor tool (O2)</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"><div class="bar"></div></div><div class="cell"><div class="bar"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div>
+      <div class="row"><div class="lab">WP4 · Agent loop + verification (O4)</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="bar"></div></div><div class="cell"><div class="bar"></div></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div></div>
+      <div class="row"><div class="lab">WP5 · Generative tool (O3)</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="bar alt"></div></div><div class="cell"><div class="bar alt"></div></div><div class="cell"><div class="bar alt"></div></div><div class="cell"></div><div class="cell"></div></div>
+      <div class="row"><div class="lab">WP6 · End-to-end evaluation (O5)</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="bar"></div></div><div class="cell"><div class="bar"></div></div><div class="cell"></div><div class="cell"></div></div>
+      <div class="row"><div class="lab">WP7 · Dissertation &amp; write-up</div>
+        <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"><div class="bar soft"></div></div><div class="cell"><div class="bar"></div></div><div class="cell"><div class="bar"></div></div></div>
+    </div>
+    <p style="font-size:9.5pt;color:#000;text-indent:0;margin-top:4px">Solid grey bars = core path; black hatching = higher-risk generation work; light hatching = ongoing work / slack. Objectives (O1&ndash;O5) map to &sect;8.</p>
+  </section>
+
+  <section id="s11">
+    <h2 class="sec">Risk assessment, fall-backs and flexibility</h2>
+    <p>The plan is deliberately modular so that value is delivered even if the most ambitious objective slips: a working retrieval-plus-prediction agent (O1–O2, O4) is already a complete, assessable outcome, with generation (O3) layered on top.</p>
+    <table class="data risk">
+      <caption><b>Table 2.</b> Principal risks and mitigations.</caption>
+      <thead><tr><th style="width:27%">Risk</th><th style="width:64px">Severity</th><th>Mitigation / fall-back</th></tr></thead>
+      <tbody>
+        <tr><td>Diffusion generation too costly / unstable to train or condition</td><td><span class="sev m">MED</span></td><td>Use a <b>pretrained</b> CDVAE/MatterGen checkpoint rather than training from scratch; fall back to compositional modification + re-prediction (LLMatDesign style) or string-based CrystaLLM generation if conditioning fails.</td></tr>
+        <tr><td>Generated structures unsynthesisable / physically implausible</td><td><span class="sev m">MED</span></td><td>Treat generation as <b>hypothesis-only</b>; gate every candidate through the predictor + stability filter + optional DFT; report property-match and validity rates honestly rather than claiming discovery.</td></tr>
+        <tr><td>LLM hallucination in the agent's reasoning/answers</td><td><span class="sev h">HIGH</span></td><td>Mandatory citation of retrieved evidence; numerical answers <b>must</b> come from Tool ② (never the LLM); strict typed function-calling schemas with validation/retry. Fall-back: a deterministic rule-based router maps recognised intents (e.g. "band gap of X") straight to tools, bypassing LLM routing on core paths.</td></tr>
+        <tr><td>Property predictor inaccurate out-of-distribution</td><td><span class="sev m">MED</span></td><td>Restrict scope to well-covered inorganic crystals; report predictor uncertainty; cross-validate against retrieved DFT values. Fall-back: the agent <b>abstains</b> (a calibrated "I don't know" using retrieval-coverage and uncertainty signals) rather than answering confidently outside its regime.</td></tr>
+        <tr><td>Data/compute access (GPU hours, API limits)</td><td><span class="sev l">LOW</span></td><td>Rely on open data (Materials Project/OQMD) and reference checkpoints; cache retrieved records locally to respect rate limits; College HPC for any DFT. Fall-back: OPTIMADE federation / Alexandria if a single source is unavailable; nothing in the core path needs large-scale pretraining.</td></tr>
+        <tr><td>Grounding/hallucination metrics noisy or contested</td><td><span class="sev l">LOW</span></td><td>Use multiple complementary measures and emphasise <b>controlled ablation deltas</b> (LLM-only vs RAG-only vs full), which remain informative even if absolute numbers are imperfect.</td></tr>
+        <tr><td>Integration/engineering overruns</td><td><span class="sev m">MED</span></td><td>Tool-by-tool development with independent tests; the RAG + predictor milestone (Jan) is a self-contained deliverable; built-in slack (WP7) before the dissertation.</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Flexibility.</strong> Decision points are explicit: if generation (WP5) is not yielding valid, property-matched candidates by the end of April, the project pivots to a deeper evaluation of the retrieval-plus-prediction agent (e.g. a broader property set, an ablation of retrieval strategies), which is itself a strong contribution and directly answers the project brief's primary objective.</p>
+  </section>
+
+  <section id="s12">
+    <h2 class="sec">Expected outcomes and deliverables</h2>
+    <p>The project will deliver: (1) a working LLM-agent system integrating RAG, property prediction and (target) generation for inorganic crystals; (2) an evaluation comparing it against bare-LLM and retrieval-only baselines on faithfulness, prediction error, generation quality and hallucination rate; (3) a curated materials knowledge base and a reproducible codebase built on open tools; and (4) the MSci dissertation. The broader contribution is conceptual as much as engineering: a demonstration that the right division of labour (language model for orchestration and explanation, specialised ML for numbers and structures, retrieval for grounding) is a more reliable route to materials discovery than ever-larger general models alone.<sup class="c"><a href="#ref-31">31</a></sup></p>
+  </section>
+
+  <hr class="soft">
+  <section id="refs">
+    <h2 class="sec nonum">References</h2>
+    <ol class="refs">
+      <li id="ref-1">M.-H. Van, P. Verma, C. Zhao, X. Wu. <i>A Survey of AI for Materials Science: Foundation Models, LLM Agents, Datasets, and Tools.</i> arXiv:2506.20743, 2025. [anchor survey]</li>
+      <li id="ref-2">A. Jain <i>et al.</i> Commentary: The Materials Project: A materials genome approach to accelerating materials innovation. <i>APL Materials</i> 1(1):011002, 2013.</li>
+      <li id="ref-3">J. E. Saal, S. Kirklin, M. Aykol, B. Meredig, C. Wolverton. Materials design and discovery with high-throughput DFT: the Open Quantum Materials Database (OQMD). <i>JOM</i> 65:1501–1509, 2013.</li>
+      <li id="ref-4">A. Vaswani <i>et al.</i> Attention is all you need. <i>NeurIPS</i>, 2017.</li>
+      <li id="ref-5">J. Devlin, M.-W. Chang, K. Lee, K. Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. <i>NAACL</i>, 2019.</li>
+      <li id="ref-6">T. Brown <i>et al.</i> Language models are few-shot learners (GPT-3). <i>NeurIPS</i>, 2020.</li>
+      <li id="ref-7">P. Lewis <i>et al.</i> Retrieval-augmented generation for knowledge-intensive NLP tasks. <i>NeurIPS</i>, 2020.</li>
+      <li id="ref-8">J. Ho, A. Jain, P. Abbeel. Denoising diffusion probabilistic models. <i>NeurIPS</i>, 2020.</li>
+      <li id="ref-9">A. Merchant, S. Batzner, S. S. Schoenholz, M. Aykol, G. Cheon, E. D. Cubuk. Scaling deep learning for materials discovery (GNoME). <i>Nature</i> 624(7990):80–85, 2023.</li>
+      <li id="ref-10">H. Yang <i>et al.</i> MatterSim: A deep learning atomistic model across elements, temperatures and pressures. arXiv, 2024.</li>
+      <li id="ref-11">I. Batatia, D. P. Kovács, G. Simm, C. Ortner, G. Csányi. MACE: Higher order equivariant message passing neural networks for fast and accurate force fields. <i>NeurIPS</i> 35:11423–11436, 2022.</li>
+      <li id="ref-12">C. Zeni, R. Pinsler, D. Zügner, A. Fowler, M. Horton, X. Fu <i>et al.</i> MatterGen: a generative model for inorganic materials design. <i>Nature</i>, 2025.</li>
+      <li id="ref-13">T. Xie, X. Fu, O.-E. Ganea, R. Barzilay, T. Jaakkola. Crystal Diffusion Variational Autoencoder for periodic material generation (CDVAE). <i>ICLR</i>, 2022.</li>
+      <li id="ref-14">R. Jiao, W. Huang, P. Lin, J. Han, P. Chen, Y. Lu, Y. Liu. Crystal structure prediction by joint equivariant diffusion (DiffCSP). <i>NeurIPS</i> 36:17464–17497, 2023.</li>
+      <li id="ref-15">R. Jiao, W. Huang, Y. Liu, D. Zhao, Y. Liu. Space group constrained crystal generation (DiffCSP++). arXiv:2402.03992, 2024.</li>
+      <li id="ref-16">C.-Y. Ye, H.-M. Weng, Q.-S. Wu. Con-CDVAE: A method for the conditional generation of crystal structures. 2024.</li>
+      <li id="ref-17">L. M. Antunes, K. T. Butler, R. Grau-Crespo. Crystal structure generation with autoregressive large language modelling (CrystaLLM). <i>Nature Communications</i>, 2024.</li>
+      <li id="ref-18">N. Gebauer, M. Gastegger, K. Schütt. Symmetry-adapted generation of 3D point sets for the targeted discovery of molecules (G-SchNet). <i>NeurIPS</i> 32, 2019.</li>
+      <li id="ref-19">T. Xie, J. C. Grossman. Crystal Graph Convolutional Neural Networks for an accurate and interpretable prediction of material properties (CGCNN). <i>Physical Review Letters</i> 120:145301, 2018.</li>
+      <li id="ref-20">C. Chen, W. Ye, Y. Zuo, C. Zheng, S. P. Ong. Graph Networks as a universal machine learning framework for molecules and crystals (MEGNet). <i>Chemistry of Materials</i> 31(9):3564–3572, 2019.</li>
+      <li id="ref-21">K. T. Schütt, H. E. Sauceda, P.-J. Kindermans, A. Tkatchenko, K.-R. Müller. SchNet: a deep learning architecture for molecules and materials. <i>J. Chem. Phys.</i> 148:241722, 2018.</li>
+      <li id="ref-22">S. Chithrananda, G. Grand, B. Ramsundar. ChemBERTa: large-scale self-supervised pretraining for molecular property prediction. arXiv, 2020.</li>
+      <li id="ref-23">T. Gupta, M. Zaki, N. M. A. Krishnan, Mausam. MatSciBERT: A materials domain language model for text mining and information extraction. <i>npj Computational Materials</i> 7(1):84, 2021.</li>
+      <li id="ref-24">H. Zhang, Y. Song, Z. Hou, S. Miret, B. Liu. HoneyComb: A flexible LLM-based agent system for materials science. arXiv, 2024.</li>
+      <li id="ref-25">Y. Song, S. Miret, H. Zhang, B. Liu. HoneyBee: Progressive instruction finetuning of large language models for materials science. 2024.</li>
+      <li id="ref-26">S. Jia, C. Zhang, V. Fung. LLMatDesign: Autonomous materials discovery with large language models. arXiv:2406.13163, 2024.</li>
+      <li id="ref-27">Y. Kang, J. Kim. ChatMOF: an artificial intelligence system for predicting and generating metal–organic frameworks. 2024.</li>
+      <li id="ref-28">A. Bazgir, Y. Zhang <i>et al.</i> MatAgent: A human-in-the-loop multi-agent LLM framework for accelerating materials discovery. 2024.</li>
+      <li id="ref-29">MatPilot: an LLM-enabled AI materials scientist under the framework of human–machine collaboration. arXiv, 2024.</li>
+      <li id="ref-30">A. M. Bran, S. Cox, O. Schilter, C. Baldassari, A. D. White, P. Schwaller. Augmenting large language models with chemistry tools (ChemCrow). <i>Nature Machine Intelligence</i> 6(5):525–535, 2024.</li>
+      <li id="ref-31">S. Miret, N. M. Krishnan. Are LLMs ready for real-world materials discovery? arXiv:2402.05200, 2024.</li>
+      <li id="ref-32">P. Thölke, G. De Fabritiis. TorchMD-Net: equivariant transformers for neural network based molecular potentials. arXiv:2202.02541, 2022.</li>
+      <li id="ref-33">Z. Wu <i>et al.</i> MoleculeNet: a benchmark for molecular machine learning. <i>Chemical Science</i> 9(2):513–530, 2018.</li>
+      <li id="ref-34">N. J. Szymanski <i>et al.</i> An autonomous laboratory for the accelerated synthesis of novel materials (A-Lab). <i>Nature</i>, 2023.</li>
+      <li id="ref-35">V. Fung <i>et al.</i> Foundation models for materials discovery: current state and future directions. <i>npj Computational Materials</i> 11(1):61, 2025.</li>
+      <li id="ref-36">S. P. Ong <i>et al.</i> Python Materials Genomics (pymatgen): A robust, open-source library for materials analysis. <i>Computational Materials Science</i> 68:314–319, 2013.</li>
+      <li id="ref-37">A. Dunn, Q. Wang, A. Ganose, D. Dopp, A. Jain. Benchmarking materials property prediction methods: the Matbench test set. <i>npj Computational Materials</i> 6:138, 2020.</li>
+      <li id="ref-38">K. M. Jablonka <i>et al.</i> Leveraging large language models for predictive chemistry. <i>Nature Machine Intelligence</i> 6(2):161–169, 2024.</li>
+      <li id="ref-39">S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, Y. Cao. ReAct: Synergizing reasoning and acting in language models. <i>ICLR</i>, 2023.</li>
+      <li id="ref-40">V. Karpukhin <i>et al.</i> Dense passage retrieval for open-domain question answering. <i>EMNLP</i>, 2020.</li>
+      <li id="ref-41">B. Deng <i>et al.</i> CHGNet as a pretrained universal neural network potential for charge-informed atomistic modelling. <i>Nature Machine Intelligence</i> 5:1031–1041, 2023.</li>
+      <li id="ref-42">N. Gruver, A. Sriram, A. Madotto, A. G. Wilson, C. L. Zitnick, Z. Ulissi. Fine-tuned language models generate stable inorganic materials as text. <i>ICLR</i>, 2024.</li>
+      <li id="ref-43">A. N. Rubungo <i>et al.</i> LLM4Mat-Bench: Benchmarking large language models for materials property prediction. arXiv, 2024.</li>
+    </ol>
+  </section>
+
+  <div class="footnote">
+    Draft literature review &amp; research proposal · structured from the primary literature and the survey of Van <i>et al.</i> (arXiv:2506.20743). Author, supervisor and CID fields are placeholders. Citation details should be verified in a reference manager before submission.
+  </div>
+
+</main>
+</div>
+</body>
+</html>

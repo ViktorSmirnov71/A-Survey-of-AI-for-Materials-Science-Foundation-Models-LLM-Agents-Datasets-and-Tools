@@ -1,0 +1,9 @@
+# Intermediate/scratch artifacts (regenerable from the source PDF)
+_work/
+
+# macOS
+.DS_Store
+
+# Editor / misc
+*.tmp
+*.swp
