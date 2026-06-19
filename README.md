@@ -27,7 +27,7 @@ inorganic crystalline materials.
 | File | Description |
 |------|-------------|
 | `Literature_Review_Proposal.html` | The literature review + research proposal (open in a browser). |
-| `Literature_Review_Proposal.pdf`  | Print-ready A4 version (Times New Roman, ~11 pages). |
+| `Literature_Review_Proposal.pdf`  | Print-ready A4 version (Times New Roman; ~10-page body plus references). |
 | `A SURVEY OF AI FOR MATERIALS SCIENCE- FOUNDATION MODELS, LLM AGENTS, DATASETS, AND TOOLS.pdf` | The source survey paper under review. |
 | `Literature Review and Research Proposal 2026.pdf` | The MSci assignment brief. |
 
